@@ -1,2 +1,6 @@
 # ICS455_Cryptocurrency
-final project for ICS455 at the University of Hawaii at Manoa
+This repository is for the final project for ICS455 at the University of Hawaii at Manoa.
+
+
+
+
