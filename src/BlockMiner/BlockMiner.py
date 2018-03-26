@@ -9,7 +9,7 @@ example_block0 = """
 {
     "previous_hash": "",
     "timestamp": 1506057125.900785,
-    "proof": 65,
+    "proof": 0,
     "index": 0,
     "transactions": [
         {
@@ -34,7 +34,7 @@ example_block1 = """
             "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
         }
     ],
-    "proof": 1,
+    "proof": 0,
     "previous_hash": "48e3d46ceb2c56d8b33889601ee02651667b18b3763d503207177324e74cb840"
 }
 """
@@ -51,11 +51,44 @@ example_block2 = """
             "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
         }
     ],
-    "proof": 8,
+    "proof": 0,
     "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
 }
 """
 
+example_block10 = """
+{
+    "index": 10,
+    "timestamp": 1706057125.900785,
+    "transactions": [
+        {
+            "sender": "MIICWwIBAAKBgHztyBDR5al",
+            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
+            "amount": 100,
+            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
+        }
+    ],
+    "proof": 0,
+    "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
+}
+"""
+
+example_block100 = """
+{
+    "index": 100,
+    "timestamp": 1706057125.900785,
+    "transactions": [
+        {
+            "sender": "MIICWwIBAAKBgHztyBDR5al",
+            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
+            "amount": 100,
+            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
+        }
+    ],
+    "proof": 0,
+    "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
+}
+"""
 
 def main():
     #hardness index of 2
@@ -66,6 +99,11 @@ def main():
     find_proof_of_work(example_block1)
     find_proof_of_work(example_block2)
 
+    #example with hardness index of 2
+    find_proof_of_work(example_block10)
+
+    #example with hardness index of 3
+    find_proof_of_work(example_block100)
 
 # proof of work slide
 def proof_example():

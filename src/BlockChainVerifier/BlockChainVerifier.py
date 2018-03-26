@@ -3,6 +3,7 @@ from src.Helper import BlockMaker
 
 # go through each block and check the hashes
 def main():
+    #test an example block chain
     test_hashes(example_block_chain)
 
 def test_hashes(block_chain):
