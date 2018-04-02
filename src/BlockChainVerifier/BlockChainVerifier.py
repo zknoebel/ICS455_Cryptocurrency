@@ -4,11 +4,18 @@ from src.Helper import BlockMaker
 # go through each block and check the hashes
 def main():
     # test an example block chain
+    print("Test correct block chain: ", end="")
     test_hashes(example_block_chain)
 
+    print()
+
     # test an example that should fail
-    example_block_chain.reverse()
-    test_hashes(example_block_chain)
+    print("Test incorrect block chain: ", end="")
+    try:
+        example_block_chain.reverse()
+        test_hashes(example_block_chain)
+    except ValueError as e:
+        print(str(e))
 
 
 def test_hashes(block_chain):
@@ -21,7 +28,7 @@ def test_hashes(block_chain):
 
         hashed_value = BlockMaker.hash(block)
 
-    print("all hashes have been verified")
+    print("All hashes have been verified")
     return True
 
 
