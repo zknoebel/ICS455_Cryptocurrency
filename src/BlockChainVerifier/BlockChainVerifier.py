@@ -4,13 +4,13 @@ from src.Helper import BlockMaker
 # go through each block and check the hashes
 def main():
     # test an example block chain
-    print("Test correct block chain: ", end="")
+    print("Test valid block chain: ", end="")
     test_hashes(example_block_chain)
 
     print()
 
     # test an example that should fail
-    print("Test incorrect block chain: ", end="")
+    print("Test invalid block chain: ", end="")
     try:
         example_block_chain.reverse()
         test_hashes(example_block_chain)
@@ -21,7 +21,7 @@ def main():
 def test_hashes(block_chain):
     hashed_value = ""
 
-    for json_block in example_block_chain:
+    for json_block in block_chain:
         block = BlockMaker.make_block(json_block)
         if hashed_value != block["previous_hash"]:
             raise ValueError("Hash does not match")
