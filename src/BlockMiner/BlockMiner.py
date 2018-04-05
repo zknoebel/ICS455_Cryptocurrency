@@ -4,7 +4,6 @@ import json
 
 import json
 
-
 example_block0 = """
 {
     "previous_hash": "",
@@ -90,20 +89,22 @@ example_block100 = """
 }
 """
 
+
 def main():
-    #hardness index of 2
+    # hardness index of 2
     proof_example()
 
-    #example block chain of length 3
+    # example block chain of length 3
     find_proof_of_work(example_block0)
     find_proof_of_work(example_block1)
     find_proof_of_work(example_block2)
 
-    #example with hardness index of 2
+    # example with hardness index of 2
     find_proof_of_work(example_block10)
 
-    #example with hardness index of 3
+    # example with hardness index of 3
     find_proof_of_work(example_block100)
+
 
 # proof of work slide
 def proof_example():
@@ -117,7 +118,6 @@ def proof_example():
 
 
 def find_proof_of_work(json_block):
-
     block = BlockMaker.make_block(json_block)
 
     # the hardness will be the matching the index as the last two chars in the hash
@@ -130,13 +130,9 @@ def find_proof_of_work(json_block):
     while BlockMaker.hash(block)[hardness_index:] != str(hardness):
         block["proof"] += 1
 
-        # just to show it works
-        # get rid of this later
-        print("last chars = " + sha256(json.dumps(block).encode()).hexdigest()[hardness_index:])
-
+    print("proof of newly mined block = " + str(block["proof"]))
     print("hash of newly mined block = " + str(sha256(json.dumps(block).encode()).hexdigest()))
-    print("newly mined block = " + str(block))
-    return block
+    return BlockMaker.make_json(block)
 
 
 if __name__ == "__main__":

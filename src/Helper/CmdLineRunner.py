@@ -5,8 +5,7 @@ import cmd
 
 
 class CmdLineRunner(cmd.Cmd):
-    intro = """Use this tool to verify block chains or mine blocks.
-            Type help or ? to list commands.\n"""
+    intro = "Use this tool to verify block chains or mine blocks.\n\nType help or ? to list commands.\nType help <command> to learn about the command\n"
 
     prompt = "(CLR) "
 
@@ -16,13 +15,14 @@ class CmdLineRunner(cmd.Cmd):
         exit()
 
     def do_verify(self, arg):
-        'Verify a block chain'
+        'Verify a block chain\n\nverify <filename_to_verify>\n'
+
         file = open(arg, 'r')
         block_chain = file.read()
         BlockChainVerifier.test_hashes(file)
 
     def do_mine(self, arg):
-        'Mine a block'
+        'Mine a block\n\nmine <file_to_mine>\nor\nmine <file_to_mine> <file_to_save_to>\n'
         arguments = arg.split()
         file = open(arguments[0], 'r')
         block = file.read()

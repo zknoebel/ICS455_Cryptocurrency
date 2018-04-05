@@ -27,3 +27,16 @@ def make_block(json_block):
 
 def hash(block):
     return sha256(json.dumps(block).encode()).hexdigest()
+
+def make_json(block):
+    string_block = '{\n\t"previous_hash": "' + str(block["previous_hash"]) + '",\n'
+    string_block += '\t"timestamp": ' + str(block["timestamp"]) + ',\n'
+    string_block += '\t"proof": ' + str(block["proof"]) + ',\n'
+    string_block += '\t"index": ' + str(block["index"]) + ',\n'
+    string_block += '\t"transactions": [\n'
+    string_block += '\t\t{\n\t\t\t"amount": ' + str(block["transactions"]["amount"]) + ',\n'
+    string_block += '\t\t\t"signature": "' + str(block["transactions"]["signature"]) + '",\n'
+    string_block += '\t\t\t"receiver": "' + str(block["transactions"]["receiver"]) + '",\n'
+    string_block += '\t\t\t"sender": "' + str(block["transactions"]["sender"]) + '"\n\t\t}\n\t]\n}'
+
+    return string_block
