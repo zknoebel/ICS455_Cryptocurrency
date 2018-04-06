@@ -1,8 +1,7 @@
-from src.Helper import BlockMaker
 from src.BlockMiner import BlockMiner
 from src.BlockChainVerifier import BlockChainVerifier
 import cmd
-
+import json
 
 class CmdLineRunner(cmd.Cmd):
     intro = "Use this tool to verify block chains or mine blocks.\n\nType help or ? to list commands.\nType help <command> to learn about the command\n"
@@ -10,31 +9,34 @@ class CmdLineRunner(cmd.Cmd):
     prompt = "(CLR) "
 
     def do_exit(self, arg):
-        'Exit Command Line Runner.'
+        """Exit Command Line Runner."""
         print("Exiting now.")
         exit()
 
     def do_verify(self, arg):
-        'Verify a block chain\n\nverify <filename_to_verify>\n'
+        """Verify a block chain\n\nverify <filename_to_verify>\n"""
 
         file = open(arg, 'r')
         block_chain = file.read()
-        BlockChainVerifier.test_hashes(file)
+        BlockChainVerifier.test_blocks(block_chain)
 
     def do_mine(self, arg):
-        'Mine a block\n\nmine <file_to_mine>\nor\nmine <file_to_mine> <file_to_save_to>\n'
+        """Mine a block\n\nmine <current_block_chain_file> <transaction_file> <timestamp>\nor\nmine <current_block_chain_file> <transaction_file> <timestamp> <file_to_save_to>\n"""
         arguments = arg.split()
-        file = open(arguments[0], 'r')
-        block = file.read()
-        if (len(arguments) > 1):
-            new_file = open(arguments[1], 'w')
-            new_file.write(str(BlockMiner.find_proof_of_work(block)))
-        else:
-            BlockMiner.find_proof_of_work(block)
+        block_chain_file = open(arguments[0], 'r')
+        transaction_file = open(arguments[1], 'r')
+
+        block_chain = block_chain_file.read()
+        transactions = json.loads(transaction_file.read())
+        new_block_chain = BlockMiner.mine_block(block_chain, arguments[2], transactions)
+        if (len(arguments) == 4):
+            new_file = open(arguments[3], 'w')
+            new_file.write(new_block_chain)
+            new_file.close()
 
 
 def parse(arg):
-    'Convert a series of zero or more strings to an argument tuple.'
+    """Convert a series of zero or more strings to an argument tuple."""
     return tuple(map(int, arg.split()))
 
 

@@ -28,6 +28,7 @@ def make_block(json_block):
 def hash(block):
     return sha256(json.dumps(block).encode()).hexdigest()
 
+
 def make_json(block):
     string_block = '{\n\t"previous_hash": "' + str(block["previous_hash"]) + '",\n'
     string_block += '\t"timestamp": ' + str(block["timestamp"]) + ',\n'
@@ -40,3 +41,19 @@ def make_json(block):
     string_block += '\t\t\t"sender": "' + str(block["transactions"]["sender"]) + '"\n\t\t}\n\t]\n}'
 
     return string_block
+
+
+def separate_blocks(block_chain_string):
+    blocks = json.loads(block_chain_string)
+    block_strings = []
+
+    for block in blocks:
+        block_strings.append(json.dumps(block))
+
+    return block_strings
+
+
+def add_to_chain(block_chain, block):
+    last_occurence = block_chain.rfind('}')
+    new_block_chain = block_chain[:last_occurence + 1] + ",\n" + block + "\n]"
+    return new_block_chain

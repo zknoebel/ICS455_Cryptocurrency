@@ -1,5 +1,6 @@
 from hashlib import sha256
 from src.Helper import BlockMaker
+from src.BlockChainVerifier import BlockChainVerifier
 import json
 
 import json
@@ -133,6 +134,25 @@ def find_proof_of_work(json_block):
     print("proof of newly mined block = " + str(block["proof"]))
     print("hash of newly mined block = " + str(sha256(json.dumps(block).encode()).hexdigest()))
     return BlockMaker.make_json(block)
+
+
+def mine_block(block_chain, timestamp, transactions):
+    verified_tuple = BlockChainVerifier.test_blocks(block_chain)
+    index = verified_tuple[0] + 1
+    previous_hash = verified_tuple[1]
+    proof = 0
+
+    block = {"previous_hash": previous_hash, "timestamp": timestamp, "proof": proof, "index": index,
+             "transactions": transactions}
+    json_block = BlockMaker.make_json(block)
+
+    # todo check for enough money in wallet when function is ready
+
+    mined_block = find_proof_of_work(json_block)
+
+    new_block_chain = BlockMaker.add_to_chain(block_chain, mined_block)
+
+    return new_block_chain
 
 
 if __name__ == "__main__":

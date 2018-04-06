@@ -1,43 +1,44 @@
-{
-    "previous_hash": "",
-    "timestamp": 1506057125.900785,
-    "proof": 65,
-    "index": 0,
-    "transactions": [
-        {
-            "amount": 100,
-            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29",
-            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
-            "sender": "MIICWwIBAAKBgHztyBDR5al"
-        }
-    ]
-}
-{
-    "index": 1,
-    "timestamp": 1606057125.900785,
-    "transactions": [
-        {
-            "sender": "MIICWwIBAAKBgHztyBDR5al",
-            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
-            "amount": 100,
-            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
-        }
-    ],
-    "proof": 1,
-    "previous_hash": "48e3d46ceb2c56d8b33889601ee02651667b18b3763d503207177324e74cb840"
-}
-{
-    "index": 2,
-    "timestamp": 1706057125.900785,
-    "transactions": [
-        {
-            "sender": "MIICWwIBAAKBgHztyBDR5al",
-            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
-            "amount": 100,
-            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
-        }
-    ],
-    "proof": 8,
-    "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
-}
-
+[
+	{
+	    "previous_hash": "",
+	    "timestamp": 1506057125.900785,
+	    "proof": 65,
+	    "index": 0,
+	    "transactions": [
+	        {
+	            "amount": 100,
+	            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29",
+	            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
+	            "sender": "MIICWwIBAAKBgHztyBDR5al"
+	        }
+	    ]
+	},
+	{
+	    "index": 1,
+	    "timestamp": 1606057125.900785,
+	    "transactions": [
+	        {
+	            "sender": "MIICWwIBAAKBgHztyBDR5al",
+	            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
+	            "amount": 100,
+	            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
+	        }
+	    ],
+	    "proof": 1,
+	    "previous_hash": "48e3d46ceb2c56d8b33889601ee02651667b18b3763d503207177324e74cb840"
+	},
+	{
+	    "index": 2,
+	    "timestamp": 1706057125.900785,
+	    "transactions": [
+	        {
+	            "sender": "MIICWwIBAAKBgHztyBDR5al",
+	            "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
+	            "amount": 100,
+	            "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
+	        }
+	    ],
+	    "proof": 8,
+	    "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
+	}
+]
