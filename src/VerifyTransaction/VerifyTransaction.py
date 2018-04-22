@@ -1,7 +1,8 @@
 from src.Helper import BlockMaker
+from src.BlockMiner import BlockMiner
 import json
-
-
+import time
+import sys
 # go through each block and check the hashes
 def main():
     # test an example block chain
@@ -22,10 +23,11 @@ def verify_transaction(block_chain_string):
     hashed_value = ""
 
     block_chain = BlockMaker.separate_blocks(block_chain_string)
-    index = 0;
-    sender_balance = 499;
-    receiver_balance = 0;
-    transaction = 200;
+    index = 0
+    sender_balance = 599
+    receiver_balance = 0
+    transaction = sys.argv[1]
+
     if len(block_chain) > 0:
         for json_block in block_chain:
             block = BlockMaker.make_block(json_block)
@@ -35,9 +37,9 @@ def verify_transaction(block_chain_string):
             print("Block at index " + str(block["index"]) + " has been verified.")
             sender = (block['transactions']['sender'])
             receiver = (block['transactions']['receiver'])
-            # change to commandline argument
-            subject1 = "MIICWwIBAAKBgHztyBDR5al"
-            subject2 = "wvfYvNSFAwOFVV4B3o1kxsSY"
+            # add salt later on.
+            subject1 = sys.argv[2]
+            subject2 = sys.argv[3]
             if subject1 == sender:
                 balance = (block['transactions']['amount'])
                 sender_balance -= balance
@@ -47,12 +49,14 @@ def verify_transaction(block_chain_string):
             index += 1
             hashed_value = BlockMaker.hash(block)
         print("Verify the transaction: ", transaction)
-        #print("The account with public key has " + str(block['transactions']['receiver']), receiver_balance)
-        print("The acount with public key has " + str(block['transactions']['sender']), sender_balance)
-        if sender_balance >= transaction:
+        print("The account with public key has " + str(block['transactions']['sender']), sender_balance)
+        if int(sender_balance) >= int(transaction):
             print("Transaction verified")
-            #call to generate transaction
-            #make_block(json_block)
+            transaction_string = '{"amount": '+ str(transaction) + ', "signature": "signature", "receiver": ' + str(subject2) + ', "sender": ' + str(subject1) + '"}'
+            print(transaction_string)
+            new_file = open('new_block_chain.json', 'w')
+            new_file.write(BlockMiner.mine_block(block_chain_string, time.time(), transaction_string))
+            new_file.close()
         else:
             print("Not enough funds. Transaction cancelled")
         print("All hashes have been verified")
