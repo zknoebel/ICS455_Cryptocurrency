@@ -19,14 +19,12 @@ def main():
         print(str(e))
 
 
-def verify_transaction(block_chain_string):
+def verify_transaction(block_chain_string, transaction, sender, receiver):
     hashed_value = ""
-
     block_chain = BlockMaker.separate_blocks(block_chain_string)
     index = 0
     sender_balance = 599
     receiver_balance = 0
-    transaction = sys.argv[1]
 
     if len(block_chain) > 0:
         for json_block in block_chain:
@@ -35,15 +33,12 @@ def verify_transaction(block_chain_string):
                 raise ValueError("Hash does not match")
 
             print("Block at index " + str(block["index"]) + " has been verified.")
-            sender = (block['transactions']['sender'])
-            receiver = (block['transactions']['receiver'])
-            # add salt later on.
-            subject1 = sys.argv[2]
-            subject2 = sys.argv[3]
-            if subject1 == sender:
+            sender1 = (block['transactions']['sender'])
+            receiver1 = (block['transactions']['receiver'])
+            if sender == sender1:
                 balance = (block['transactions']['amount'])
                 sender_balance -= balance
-            if subject2 == receiver:
+            if sender == receiver1:
                 total = (block['transactions']['amount'])
                 receiver_balance += total
             index += 1
@@ -52,13 +47,12 @@ def verify_transaction(block_chain_string):
         print("The account with public key has " + str(block['transactions']['sender']), sender_balance)
         if int(sender_balance) >= int(transaction):
             print("Transaction verified")
-            transaction_string = '{"amount": '+ str(transaction) + ', "signature": "signature", "receiver": ' + str(subject2) + ', "sender": ' + str(subject1) + '"}'
-            print(transaction_string)
-            new_file = open('new_block_chain.json', 'w')
-            new_file.write(BlockMiner.mine_block(block_chain_string, time.time(), transaction_string))
-            new_file.close()
+            transaction_string = '{"amount": '+ str(transaction) + ', "signature": "signature", "receiver": ' + str(receiver) + ', "sender": ' + str(sender) + '"}'
+            #print(transaction_string)
+            return True
         else:
             print("Not enough funds. Transaction cancelled")
+            return False
         print("All hashes have been verified")
     else:
         print("Empty block chain")
