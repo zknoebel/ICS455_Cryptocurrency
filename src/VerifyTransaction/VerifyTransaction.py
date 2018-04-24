@@ -1,62 +1,33 @@
-from src.Helper import BlockMaker
-from src.BlockMiner import BlockMiner
 import json
-import time
-import sys
+
+from src.Wallet import Wallet
+
+
 # go through each block and check the hashes
 def main():
-    # test an example block chain
-    print("Test valid block chain:\n", end="")
-    verify_transaction(example_block_chain)
+    # test a transaction that should pass
+    print("Test valid transaction:")
+    print("Passes: " + str(verify_transaction(example_block_chain, valid_transaction)))
 
     print()
 
-    # test an example that should fail
-    print("Test invalid block chain:\n", end="")
+    # test a transaction that should fail
+    print("Test invalid transaction:")
+    print("Passes: " + str(verify_transaction(example_block_chain, invalid_transaction)))
+
+
+def verify_transaction(block_chain_string, transaction_string):
+    wallet_store = Wallet.make_wallet(block_chain_string)
+    transaction = json.loads(transaction_string)
+
     try:
-        verify_transaction(example_bad_block_chain)
-    except ValueError as e:
-        print(str(e))
-
-
-def verify_transaction(block_chain_string, transaction, sender, receiver):
-    hashed_value = ""
-    block_chain = BlockMaker.separate_blocks(block_chain_string)
-    index = 0
-    sender_balance = 599
-    receiver_balance = 0
-
-    if len(block_chain) > 0:
-        for json_block in block_chain:
-            block = BlockMaker.make_block(json_block)
-            if hashed_value != block["previous_hash"] or index != block["index"]:
-                raise ValueError("Hash does not match")
-
-            print("Block at index " + str(block["index"]) + " has been verified.")
-            sender1 = (block['transactions']['sender'])
-            receiver1 = (block['transactions']['receiver'])
-            if sender == sender1:
-                balance = (block['transactions']['amount'])
-                sender_balance -= balance
-            if sender == receiver1:
-                total = (block['transactions']['amount'])
-                receiver_balance += total
-            index += 1
-            hashed_value = BlockMaker.hash(block)
-        print("Verify the transaction: ", transaction)
-        print("The account with public key has " + str(block['transactions']['sender']), sender_balance)
-        if int(sender_balance) >= int(transaction):
-            print("Transaction verified")
-            transaction_string = '{"amount": '+ str(transaction) + ', "signature": "signature", "receiver": ' + str(receiver) + ', "sender": ' + str(sender) + '"}'
-            #print(transaction_string)
+        if wallet_store[transaction["sender"]] > transaction["amount"]:
             return True
         else:
-            print("Not enough funds. Transaction cancelled")
             return False
-        print("All hashes have been verified")
-    else:
-        print("Empty block chain")
-    return index - 1, hashed_value
+    except KeyError:
+        return False
+
 
 example_block0 = """{
     "previous_hash": "",
@@ -103,8 +74,23 @@ example_block2 = """{
     "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
 }"""
 
+valid_transaction = """{
+  "amount": 100,
+  "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29",
+  "receiver": "nwA6Sioun0wes7wASE2fo3i",
+  "sender": "wvfYvNSFAwOFVV4B3o1kxsSY"
+}
+"""
+
+invalid_transaction = """{
+  "amount": 100,
+  "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29",
+  "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
+  "sender": "MIICWwIBAAKBgHztyBDR5al"
+}
+"""
+
 example_block_chain = "[" + example_block0 + "," + example_block1 + "," + example_block2 + "]"
-example_bad_block_chain = "[" + example_block0 + "," + example_block2 + "," + example_block1 + "]"
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,5 @@
-from src.Helper import BlockMaker
 from src.BlockChainVerifier import BlockChainVerifier
+from src.Helper import BlockMaker
 
 
 def main():

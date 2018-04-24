@@ -1,5 +1,4 @@
 from src.Helper import BlockMaker
-import json
 
 
 # go through each block and check the hashes

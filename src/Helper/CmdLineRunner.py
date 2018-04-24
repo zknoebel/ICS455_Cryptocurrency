@@ -1,7 +1,9 @@
-from src.BlockMiner import BlockMiner
-from src.BlockChainVerifier import BlockChainVerifier
 import cmd
 import json
+
+from src.BlockChainVerifier import BlockChainVerifier
+from src.BlockMiner import BlockMiner
+
 
 class CmdLineRunner(cmd.Cmd):
     intro = "Use this tool to verify block chains or mine blocks.\n\nType help or ? to list commands.\nType help <command> to learn about the command\n"

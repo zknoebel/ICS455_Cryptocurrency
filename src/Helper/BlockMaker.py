@@ -1,6 +1,6 @@
+import json
 from collections import OrderedDict
 from hashlib import sha256
-import json
 
 
 def make_block(json_block):

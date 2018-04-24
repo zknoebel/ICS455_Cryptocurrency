@@ -1,9 +1,9 @@
+import json
 from hashlib import sha256
-from src.Helper import BlockMaker
-from src.BlockChainVerifier import BlockChainVerifier
-import json
 
-import json
+from src.BlockChainVerifier import BlockChainVerifier
+from src.Helper import BlockMaker
+from src.VerifyTransaction import VerifyTransaction
 
 example_block0 = """
 {
@@ -136,23 +136,25 @@ def find_proof_of_work(json_block):
     return BlockMaker.make_json(block)
 
 
-def mine_block(block_chain, timestamp, transactions):
-    verified_tuple = BlockChainVerifier.test_blocks(block_chain)
-    index = verified_tuple[0] + 1
-    previous_hash = verified_tuple[1]
-    proof = 0
+def mine_block(block_chain_string, timestamp, transactions):
+    if VerifyTransaction.verify_transaction(block_chain_string, json.dumps(transactions)):
+        verified_tuple = BlockChainVerifier.test_blocks(block_chain_string)
+        index = verified_tuple[0] + 1
+        previous_hash = verified_tuple[1]
+        proof = 0
 
-    block = {"previous_hash": previous_hash, "timestamp": timestamp, "proof": proof, "index": index,
-             "transactions": transactions}
-    json_block = BlockMaker.make_json(block)
+        block = {"previous_hash": previous_hash, "timestamp": timestamp, "proof": proof, "index": index,
+                 "transactions": transactions}
+        json_block = BlockMaker.make_json(block)
 
-    # todo check for enough money in wallet when function is ready
+        mined_block = find_proof_of_work(json_block)
 
-    mined_block = find_proof_of_work(json_block)
+        new_block_chain = BlockMaker.add_to_chain(block_chain_string, mined_block)
 
-    new_block_chain = BlockMaker.add_to_chain(block_chain, mined_block)
-
-    return new_block_chain
+        return new_block_chain
+    else:
+        print("Not enough money in wallet. Block chain remains unchanged.")
+        return block_chain_string
 
 
 if __name__ == "__main__":
