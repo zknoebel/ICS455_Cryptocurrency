@@ -5,19 +5,19 @@ from src.Helper import BlockMaker
 def main():
     # test an example block chain
     print("Test valid block chain:\n", end="")
-    test_blocks(example_block_chain)
+    test_blocks(example_block_chain, True)
 
     print()
 
     # test an example that should fail
     print("Test invalid block chain:\n", end="")
     try:
-        test_blocks(example_bad_block_chain)
+        test_blocks(example_bad_block_chain, True)
     except ValueError as e:
         print(str(e))
 
 
-def test_blocks(block_chain_string):
+def test_blocks(block_chain_string, debug):
     hashed_value = ""
 
     block_chain = BlockMaker.separate_blocks(block_chain_string)
@@ -28,11 +28,13 @@ def test_blocks(block_chain_string):
             if hashed_value != block["previous_hash"] or index != block["index"]:
                 raise ValueError("Hash does not match")
 
-            print("Block at index " + str(block["index"]) + " has been verified.")
+            if debug:
+                print("Block at index " + str(block["index"]) + " has been verified.")
             index += 1
             hashed_value = BlockMaker.hash(block)
 
-        print("All hashes have been verified")
+        if debug:
+            print("All hashes have been verified")
     else:
         print("Empty block chain")
     return index - 1, hashed_value

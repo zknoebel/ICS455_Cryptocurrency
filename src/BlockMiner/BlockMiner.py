@@ -138,7 +138,7 @@ def find_proof_of_work(json_block):
 
 def mine_block(block_chain_string, timestamp, transactions):
     if VerifyTransaction.verify_transaction(block_chain_string, json.dumps(transactions)):
-        verified_tuple = BlockChainVerifier.test_blocks(block_chain_string)
+        verified_tuple = BlockChainVerifier.test_blocks(block_chain_string, False)
         index = verified_tuple[0] + 1
         previous_hash = verified_tuple[1]
         proof = 0

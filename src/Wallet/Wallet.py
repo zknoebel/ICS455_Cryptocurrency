@@ -6,9 +6,22 @@ def main():
     print(str(make_wallet(example_block_chain)))
 
 
+def get_balance(block_chain_string, account):
+    wallet_store = make_wallet(block_chain_string)
+    money = 0
+    try:
+        print(str(account) + " has ", end="")
+        print(str(wallet_store[account]), end="")
+        money = wallet_store[account]
+    except KeyError:
+        print("0", end="")
+    print(" ICS-455-Cryptocurrency")
+    return money
+
+
 def make_wallet(block_chain_string):
     # make sure it is a valid block chain
-    BlockChainVerifier.test_blocks(block_chain_string)
+    BlockChainVerifier.test_blocks(block_chain_string, False)
 
     wallet_store = {}
 
