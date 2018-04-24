@@ -1,36 +1,42 @@
 from src.Helper import BlockMaker
+from src.BlockChainVerifier import BlockChainVerifier
 
 def main():
     print("Wallet Information\n", end="")
     make_wallet(example_block_chain)
 
 def make_wallet(block_chain_string):
-    hashed_value = ""
+
+    # make sure it is a valid block chain
+    BlockChainVerifier.test_blocks(block_chain_string)
+
+    wallet_store = {}
+
     block_chain = BlockMaker.separate_blocks(block_chain_string)
-    index = 0;
-    wallet = 0;
+
     if len(block_chain) > 0:
         for json_block in block_chain:
             block = BlockMaker.make_block(json_block)
-            if hashed_value != block["previous_hash"] or index != block["index"]:
-                raise ValueError("Hash does not match")
+
+            previous_sender_value = wallet_store[block["transactions"]["sender"]]
+            previous_receiver_value = wallet_store[block["transactions"]["receiver"]]
+
+            if previous_sender_value != None:
+                #todo throw error
+            else:
+                wallet_store.update(block["transactions"]["sender"], block["transactions"]["amount"] - previous_sender_value)
+
+#todo add receiver
+
             print("Block at index " + str(block["index"]) + " has been verified.")
-            sender = (block['transactions']['sender'])
-            receiver = (block['transactions']['receiver'])
-            # change to commandline argument
-            subject = "MIICWwIBAAKBgHztyBDR5al"
-            if subject == sender:
-                balance = (block['transactions']['amount'])
-                wallet -= balance
-            if subject == receiver:
-                total = (block['transactions']['amount'])
-                wallet += total
             index += 1
             hashed_value = BlockMaker.hash(block)
-        print("The acount with public key: " + str(subject), wallet)
+
     else:
         print("Empty block chain")
-    return index - 1, hashed_value
+
+    return wallet_store
+
 
 example_block0 = """{
     "previous_hash": "",
