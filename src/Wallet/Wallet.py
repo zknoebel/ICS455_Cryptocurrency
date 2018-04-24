@@ -1,12 +1,12 @@
 from src.Helper import BlockMaker
 from src.BlockChainVerifier import BlockChainVerifier
 
+
 def main():
-    print("Wallet Information\n", end="")
-    make_wallet(example_block_chain)
+    print(str(make_wallet(example_block_chain)))
+
 
 def make_wallet(block_chain_string):
-
     # make sure it is a valid block chain
     BlockChainVerifier.test_blocks(block_chain_string)
 
@@ -17,21 +17,24 @@ def make_wallet(block_chain_string):
     if len(block_chain) > 0:
         for json_block in block_chain:
             block = BlockMaker.make_block(json_block)
+            transaction = block["transactions"]
+            receiver = transaction["receiver"]
+            sender = transaction["sender"]
+            amount = transaction["amount"]
 
-            previous_sender_value = wallet_store[block["transactions"]["sender"]]
-            previous_receiver_value = wallet_store[block["transactions"]["receiver"]]
+            # zero out null values
+            try:
+                previous_receiver_value = wallet_store[receiver]
+            except KeyError:
+                previous_receiver_value = 0
+            try:
+                previous_sender_value = wallet_store[sender]
+            except KeyError:
+                previous_sender_value = 0
 
-            if previous_sender_value != None:
-                #todo throw error
-            else:
-                wallet_store.update(block["transactions"]["sender"], block["transactions"]["amount"] - previous_sender_value)
-
-#todo add receiver
-
-            print("Block at index " + str(block["index"]) + " has been verified.")
-            index += 1
-            hashed_value = BlockMaker.hash(block)
-
+            # not checking for negative balances, maybe later
+            wallet_store.update({receiver: previous_receiver_value + amount})
+            wallet_store.update({sender: previous_sender_value - amount})
     else:
         print("Empty block chain")
 
@@ -82,7 +85,6 @@ example_block2 = """{
     "proof": 8,
     "previous_hash": "357a185c6f8da30504b8a36cb03587d0e98c3a89b69eeab904434ddccc6f4de1"
 }"""
-
 
 example_block_chain = "[" + example_block0 + "," + example_block1 + "," + example_block2 + "]"
 
