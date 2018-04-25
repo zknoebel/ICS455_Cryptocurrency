@@ -18,47 +18,85 @@ class CmdLineRunner(cmd.Cmd):
         exit()
 
     def do_verify(self, arg):
-        """Verify a block chain\n\nverify <filename_to_verify>\n"""
+        """Verify a block chain\n\nusage:\nverify <filename_to_verify>\n"""
 
         if arg == '':
-            print("""Verify a block chain\nusage\n\nverify <filename_to_verify>\n""")
+            CmdLineRunner.do_help(self, "verify")
         else:
-            file = open(arg, 'r')
-            block_chain = file.read()
+            try:
+                file = open(arg, 'r')
+                block_chain = file.read()
+            except FileNotFoundError:
+
+                block_chain = '{}'
             try:
                 BlockChainVerifier.test_blocks(block_chain, True)
             except ValueError as e:
                 print(str(e))
 
     def do_mine(self, arg):
-        """Mine a block\n\nmine <current_block_chain_file> <transaction_file>\nor\nmine <current_block_chain_file> <transaction_file> <file_to_save_to>\n"""
+        """Mine a block\n\nusage:\nmine <current_block_chain_file> <transaction_file>\nor\nmine <current_block_chain_file> <transaction_file> <file_to_save_to>\n"""
         arguments = arg.split()
         if len(arguments) > 1:
-            block_chain_file = open(arguments[0], 'r')
-            transaction_file = open(arguments[1], 'r')
+            try:
+                block_chain_file = open(arguments[0], 'r')
+                block_chain = block_chain_file.read()
+            except FileNotFoundError:
+                block_chain = "{}"
+
+            try:
+                transaction_file = open(arguments[1], 'r')
+                transactions = json.loads(transaction_file.read())
+            except FileNotFoundError:
+                print("invalid transaction")
+                return
+
             timestamp = time.time()
 
-            block_chain = block_chain_file.read()
-            transactions = json.loads(transaction_file.read())
-            new_block_chain = BlockMiner.mine_block(block_chain, timestamp, transactions)
+            try:
+                new_block_chain = BlockMiner.mine_block(block_chain, timestamp, transactions)
+            except ValueError as v:
+                print("Invalid block chain: " + str(v))
+                return
+
             if (len(arguments) == 3):
                 new_file = open(arguments[2], 'w')
                 new_file.write(new_block_chain)
                 new_file.close()
         else:
-            print("""Mine a block\nusage\n\nmine <current_block_chain_file> <transaction_file>\nor\nmine <current_block_chain_file> <transaction_file> <file_to_save_to>\n""")
+            CmdLineRunner.do_help(self, "mine")
 
 
     def do_balance(self, arg):
-        """Get the balance for a specific account\n\nbalance <block_chain_file> <account>"""
+        """Get the balance for a specific account\n\nusage:\nbalance <block_chain_file> <account>"""
         arguments = arg.split()
         if len(arguments) == 2:
-            block_chain_file = open(arguments[0], 'r')
-            Wallet.get_balance(block_chain_file.read(), arguments[1])
+            try:
+                block_chain_file = open(arguments[0], 'r')
+                block_chain = block_chain_file.read()
+                Wallet.get_balance(block_chain, arguments[1])
+            except FileNotFoundError:
+                print("Empty block chain")
+
         else:
-            print("""Get the balance for a specific account\nusage\n\nbalance <block_chain_file> <account>""")
+            CmdLineRunner.do_help(self, "balance")
 
 
+    def do_transaction(self, arg):
+        """Create a transaction file\n\nusage\ntransaction <sender> <receiver> <amount> <signature> <new_file_name>"""
+        arguments = arg.split()
+        if len(arguments) != 5:
+            CmdLineRunner.do_help(self, "transaction")
+            return
+
+        transaction_string = '{"amount": ' + arguments[2] + ','
+        transaction_string += '"signature": "' + arguments[3] + '",'
+        transaction_string += '"receiver": "' + arguments[1] + '",'
+        transaction_string += '"sender": "' + arguments[0] + '"}'
+
+        file = open(arguments[4], 'w')
+        file.write(transaction_string)
+        file.close()
 
 
 def parse(arg):
