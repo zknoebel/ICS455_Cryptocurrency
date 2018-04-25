@@ -1,57 +1,43 @@
-from src.BlockChainVerifier import BlockChainVerifier
-from src.Helper import BlockMaker
+from cryptoCurrency.helper import BlockMaker
 
 
+# go through each block and check the hashes
 def main():
-    print(str(make_wallet(example_block_chain)))
+    # test an example block chain
+    print("Test valid block chain:\n", end="")
+    test_blocks(example_block_chain, True)
 
+    print()
 
-def get_balance(block_chain_string, account):
-    wallet_store = make_wallet(block_chain_string)
-    money = 0
+    # test an example that should fail
+    print("Test invalid block chain:\n", end="")
     try:
-        print(str(account) + " has ", end="")
-        print(str(wallet_store[account]), end="")
-        money = wallet_store[account]
-    except KeyError:
-        print("0", end="")
-    print(" ICS-455-Cryptocurrency")
-    return money
+        test_blocks(example_bad_block_chain, True)
+    except ValueError as e:
+        print(str(e))
 
 
-def make_wallet(block_chain_string):
-    # make sure it is a valid block chain
-    BlockChainVerifier.test_blocks(block_chain_string, False)
-
-    wallet_store = {}
+def test_blocks(block_chain_string, debug):
+    hashed_value = ""
 
     block_chain = BlockMaker.separate_blocks(block_chain_string)
-
+    index = 0;
     if len(block_chain) > 0:
         for json_block in block_chain:
             block = BlockMaker.make_block(json_block)
-            transaction = block["transactions"]
-            receiver = transaction["receiver"]
-            sender = transaction["sender"]
-            amount = transaction["amount"]
+            if hashed_value != block["previous_hash"] or index != block["index"]:
+                raise ValueError("Hash does not match")
 
-            # zero out null values
-            try:
-                previous_receiver_value = wallet_store[receiver]
-            except KeyError:
-                previous_receiver_value = 0
-            try:
-                previous_sender_value = wallet_store[sender]
-            except KeyError:
-                previous_sender_value = 0
+            if debug:
+                print("Block at index " + str(block["index"]) + " has been verified.")
+            index += 1
+            hashed_value = BlockMaker.hash(block)
 
-            # not checking for negative balances, maybe later
-            wallet_store.update({receiver: previous_receiver_value + amount})
-            wallet_store.update({sender: previous_sender_value - amount})
+        if debug:
+            print("All hashes have been verified")
     else:
         print("Empty block chain")
-
-    return wallet_store
+    return index - 1, hashed_value
 
 
 example_block0 = """{
@@ -91,7 +77,7 @@ example_block2 = """{
         {
             "sender": "MIICWwIBAAKBgHztyBDR5al",
             "receiver": "wvfYvNSFAwOFVV4B3o1kxsSY",
-            "amount": 300,
+            "amount": 100,
             "signature": "2cf24dba5fb0a30e26e83b2ac5b9e29"
         }
     ],
@@ -100,6 +86,7 @@ example_block2 = """{
 }"""
 
 example_block_chain = "[" + example_block0 + "," + example_block1 + "," + example_block2 + "]"
+example_bad_block_chain = "[" + example_block0 + "," + example_block2 + "," + example_block1 + "]"
 
 if __name__ == "__main__":
     main()

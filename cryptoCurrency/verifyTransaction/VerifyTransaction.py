@@ -1,6 +1,6 @@
 import json
 
-from src.Wallet import Wallet
+from cryptoCurrency.wallet import Wallet
 
 
 # go through each block and check the hashes

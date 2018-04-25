@@ -2,9 +2,9 @@ import cmd
 import json
 import time
 
-from src.BlockChainVerifier import BlockChainVerifier
-from src.BlockMiner import BlockMiner
-from src.Wallet import Wallet
+from cryptoCurrency.blockChainVerifier import BlockChainVerifier
+from cryptoCurrency.blockMiner import BlockMiner
+from cryptoCurrency.wallet import Wallet
 
 
 class CmdLineRunner(cmd.Cmd):
@@ -66,7 +66,6 @@ class CmdLineRunner(cmd.Cmd):
         else:
             CmdLineRunner.do_help(self, "mine")
 
-
     def do_balance(self, arg):
         """Get the balance for a specific account\n\nusage:\nbalance <block_chain_file> <account>"""
         arguments = arg.split()
@@ -80,7 +79,6 @@ class CmdLineRunner(cmd.Cmd):
 
         else:
             CmdLineRunner.do_help(self, "balance")
-
 
     def do_transaction(self, arg):
         """Create a transaction file\n\nusage\ntransaction <sender> <receiver> <amount> <signature> <new_file_name>"""

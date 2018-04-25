@@ -1,9 +1,9 @@
 import json
 from hashlib import sha256
 
-from src.BlockChainVerifier import BlockChainVerifier
-from src.Helper import BlockMaker
-from src.VerifyTransaction import VerifyTransaction
+from cryptoCurrency.blockChainVerifier import BlockChainVerifier
+from cryptoCurrency.helper import BlockMaker
+from cryptoCurrency.verifyTransaction import VerifyTransaction
 
 example_block0 = """
 {
