@@ -1,0 +1,116 @@
+Show the options.
+
+(CLR)help
+Documented commands (type help <topic>):
+========================================
+balance  exit  help  mine  transaction  verify
+
+
+Starting with the Genesis Block.
+
+(CLR)help balance
+Get the balance for a specific account
+
+usage:
+balance <block_chain_file> <account>
+
+(CLR)balance sampleFiles/GenesisBlock.json wvfYvNSFAwOFVV4B3o1kxsSY
+wvfYvNSFAwOFVV4B3o1kxsSY has 100000000000 ICS-455-Cryptocurrency
+
+To make it easier to follow along we will use a name instead of a hash for sender and receiver
+
+(CLR)help transaction
+Create a transaction file
+
+usage
+transaction <sender> <receiver> <amount> <signature> <new_file_name>
+
+Make a transaction
+(CLR)transaction wvfYvNSFAwOFVV4B3o1kxsSY Abby 1000 2cf24dba5fb0a30e26e83b2ac5b9e29 sampleFiles/sample_transaction_file0
+Make a transaction
+(CLR)transaction wvfYvNSFAwOFVV4B3o1kxsSY Bob 1001 2cf24dba5fb0a30e26e83b2ac5b9e29 sampleFiles/sample_transaction_file1
+Make a transaction
+(CLR)transaction wvfYvNSFAwOFVV4B3o1kxsSY Charles 1002 2cf24dba5fb0a30e26e83b2ac5b9e29 sampleFiles/sample_transaction_file2
+Make a transaction
+(CLR)transaction wvfYvNSFAwOFVV4B3o1kxsSY Donna 1003 2cf24dba5fb0a30e26e83b2ac5b9e29 sampleFiles/sample_transaction_file3
+Make a transaction
+(CLR)transaction wvfYvNSFAwOFVV4B3o1kxsSY Edd 1004 2cf24dba5fb0a30e26e83b2ac5b9e29 sampleFiles/sample_transaction_file4
+
+
+Now that we have some transactions, we can mine some blocks
+
+(CLR)help mine
+Mine a block
+
+usage:
+mine <current_block_chain_file> <transaction_file>
+or
+mine <current_block_chain_file> <transaction_file> <file_to_save_to>
+
+
+Mine a block
+(CLR)mine sampleFiles/GenesisBlock.json sampleFiles/sample_transaction_file0 sampleFiles/sample_block_chain
+proof of newly mined block = 79
+hash of newly mined block = 8e0c7b7ed06971d65d7d7f56b7387aa457c676300f116cb5ba36d250a8bd8501
+
+
+Now a block has been mined and added to the block chain.
+Lets verify this new block chain.
+
+
+(CLR)help verify
+Verify a block chain
+
+usage:
+verify <filename_to_verify>
+
+
+(CLR)verify sampleFiles/sample_block_chain
+Block at index 0 has been verified.
+Block at index 1 has been verified.
+All hashes have been verified
+
+Now that we know that it works, lets mine a few more
+
+Mine a block
+(CLR)mine sampleFiles/sample_block_chain sampleFiles/sample_transaction_file0 sampleFiles/sample_block_chain
+proof of newly mined block = 22
+hash of newly mined block = e1ea222e556f950f49526741dbd5dd727a3fb92349e5f31d461b7f3ddd443902
+Mine a block
+(CLR)mine sampleFiles/sample_block_chain sampleFiles/sample_transaction_file1 sampleFiles/sample_block_chain
+proof of newly mined block = 104
+hash of newly mined block = 009ab3b4a9502f2275b786275d2af8aa4126a3c77b10ce3d2af3711ab5f18cf3
+Mine a block
+(CLR)mine sampleFiles/sample_block_chain sampleFiles/sample_transaction_file2 sampleFiles/sample_block_chain
+proof of newly mined block = 28
+hash of newly mined block = 81371fe42e86d79e1be1f490d098fc2b0738b3f2fef5efe241483054aa591dd4
+Mine a block
+(CLR)mine sampleFiles/sample_block_chain sampleFiles/sample_transaction_file3 sampleFiles/sample_block_chain
+proof of newly mined block = 7
+hash of newly mined block = 4254c3b1f9d357985365a475a70d0b3077787c9311f5fbf0c02ea28bc85fd835
+Mine a block
+(CLR)mine sampleFiles/sample_block_chain sampleFiles/sample_transaction_file4 sampleFiles/sample_block_chain
+proof of newly mined block = 13
+hash of newly mined block = bf8344b3fce0f3c8ea3d71dcf1ee8d114372f77871be545753add7adc8005c56
+
+As you can see, the index of the end of the block's hash has to match the index of the block.
+This automatically increases the hardness of the proof of work as more blocks are mined.
+
+Now verify the entire chain
+(CLR)verify sampleFiles/sample_block_chain
+Block at index 0 has been verified.
+Block at index 1 has been verified.
+Block at index 2 has been verified.
+Block at index 3 has been verified.
+Block at index 4 has been verified.
+Block at index 5 has been verified.
+Block at index 6 has been verified.
+All hashes have been verified
+
+Show all of the balances
+wvfYvNSFAwOFVV4B3o1kxsSY has 99999993990 ICS-455-Cryptocurrency
+Abby has 2000 ICS-455-Cryptocurrency
+Bob has 1001 ICS-455-Cryptocurrency
+Charles has 1002 ICS-455-Cryptocurrency
+Donna has 1003 ICS-455-Cryptocurrency
+Edd has 1004 ICS-455-Cryptocurrency
