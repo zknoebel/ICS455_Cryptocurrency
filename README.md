@@ -18,6 +18,8 @@ duties in exchange for some type or reward.
 find the `balance`, to `mine`, create a `transaction`, and to `verify`. An example run and a copy of the output can be
 found below.
 
+### Example Run
+
 ```
 Show the options.
 
@@ -137,7 +139,7 @@ Donna has 1003 ICS-455-Cryptocurrency
 Edd has 1004 ICS-455-Cryptocurrency
 ```
 
-## Blockchain
+### Blockchain
 
   The blocks of the Blockchain data structure will be stored in json format, as can be seen in our Genesis Block:
 
