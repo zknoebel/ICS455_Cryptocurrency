@@ -209,7 +209,8 @@ in the following method.
 def find_proof_of_work(json_block):
     block = BlockMaker.make_block(json_block)
 
-    # the hardness will be the matching the index as the last two chars in the hash
+    # the end of the hash must match the index of the block
+    # this will increase the hardness as the index increases
     hardness = block["index"]
     hardness_index = -1 * len(str(hardness))
 
