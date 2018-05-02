@@ -18,7 +18,7 @@ duties in exchange for some type or reward.
 find the `balance`, to `mine`, create a `transaction`, and to `verify`. An example run and a copy of the output can be
 found below.
 
-`
+```
 Show the options.
 
 (CLR)help
@@ -135,13 +135,13 @@ Bob has 1001 ICS-455-Cryptocurrency
 Charles has 1002 ICS-455-Cryptocurrency
 Donna has 1003 ICS-455-Cryptocurrency
 Edd has 1004 ICS-455-Cryptocurrency
-`
+```
 
 ## Blockchain
 
     The blocks of the Blockchain data structure will be stored in json format, as can be seen in our Genesis Block:
 
-`
+```
 {
     "previous_hash": "",
     "timestamp": 1506057125.900785,
@@ -156,7 +156,7 @@ Edd has 1004 ICS-455-Cryptocurrency
         }
     ]
 }
-`
+```
 
     Each of our blocks contains the data (transactions), the block ID (index), the hash of the parent (previous_hash),
 and the proof of work (proof). We start the Genesis Block, with the index of 0, with a substantial amount of our
@@ -167,14 +167,14 @@ currency to stimulate our economy. Further details on each characteristic of the
     For now, each block will only have one transaction. Each transaction contains an amount to be sent,
 the addresses of the sender and receiver, and the signature for the transaction.
 
-`
+```
 {
 	"amount": 1000,
 	"signature": "2cf24dba5fb0a30e26e83b2ac5b9e29",
 	"receiver": "Abby",
 	"sender": "wvfYvNSFAwOFVV4B3o1kxsSY"
 }
-`
+```
 
     As seen in the example run, the string for the receiver is only meant to be a placeholder for the actual public
 key. The signature is the private key associated with the sender's public key. Through the command line runner, the user
