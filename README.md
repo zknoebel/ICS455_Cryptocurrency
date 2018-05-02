@@ -1,4 +1,5 @@
 # ICS455_Cryptocurrency
+
     This repository is for the final project for ICS455 at the University of Hawaii at Manoa.
 We chose to implement Blockchain protocols to create our own form of cryptocurrency. A Blockchain is
 a data structure that consists of blocks that are linked sequentially and secured cryptographically. Every block
@@ -16,6 +17,7 @@ duties in exchange for some type or reward.
     This project was developed in Python 3 and runs from the program `CmdLineRunner.py`. The user has the option to
 find the `balance`, to `mine`, create a `transaction`, and to `verify`. An example run and a copy of the output can be
 found below.
+
 `
 Show the options.
 
@@ -136,7 +138,9 @@ Edd has 1004 ICS-455-Cryptocurrency
 `
 
 ## Blockchain
+
     The blocks of the Blockchain data structure will be stored in json format, as can be seen in our Genesis Block:
+
 `
 {
     "previous_hash": "",
@@ -153,13 +157,16 @@ Edd has 1004 ICS-455-Cryptocurrency
     ]
 }
 `
+
     Each of our blocks contains the data (transactions), the block ID (index), the hash of the parent (previous_hash),
 and the proof of work (proof). We start the Genesis Block, with the index of 0, with a substantial amount of our
 currency to stimulate our economy. Further details on each characteristic of the blocks are detailed below.
 
 ### Transactions
+
     For now, each block will only have one transaction. Each transaction contains an amount to be sent,
 the addresses of the sender and receiver, and the signature for the transaction.
+
 `
 {
 	"amount": 1000,
@@ -168,6 +175,7 @@ the addresses of the sender and receiver, and the signature for the transaction.
 	"sender": "wvfYvNSFAwOFVV4B3o1kxsSY"
 }
 `
+
     As seen in the example run, the string for the receiver is only meant to be a placeholder for the actual public
 key. The signature is the private key associated with the sender's public key. Through the command line runner, the user
 is able to enter in the fields of the transaction.
@@ -176,8 +184,10 @@ is able to enter in the fields of the transaction.
 that the transaction is valid, we must determine that the sender has enough funds to transfer.
 
 ### Proof of Work
+
     For our proof of work for the blocks, SHA-256 was our chosen Cryptographic Hash Algorithm, and our function maps to
 the slide given.
+
 ```python
 # proof of work slide
 def proof_example():
@@ -189,8 +199,10 @@ def proof_example():
 
     print("proof = " + str(r["proof"]))
 ```
+
     During the `mine` option, the Blockchain and a given transaction file from the user has it's proof of work computed
 in the following method.
+
 ```python
 def find_proof_of_work(json_block):
     block = BlockMaker.make_block(json_block)
@@ -211,9 +223,11 @@ def find_proof_of_work(json_block):
 ```
 
 ### Verification
+
     After the block has been mined, we can turn to the `verify` option to validate the new copy of the Blockchain.
 As seen in the example run, the following method provides the user with verification that none of the blocks in the
 Blockchain have been tampered with and is ready for another block to be mined.
+
 ```python
 def test_blocks(block_chain_string, debug):
     hashed_value = ""
@@ -239,6 +253,7 @@ def test_blocks(block_chain_string, debug):
 ```
 
 ### Sources
+
 Negrashov, Sergey. "Blockchains and Cryptocurrencies." University of Hawaii @ Manoa. 3/11/2018. PDF Presentation.
 
 Wikipedia contributors, 'Blockchain,' Wikipedia, The Free Encyclopedia. Wikipedia, The Free Encyclopedia, 1 May. 2018.
