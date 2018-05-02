@@ -1,6 +1,6 @@
 # ICS455_Cryptocurrency
 
-    This repository is for the final project for ICS455 at the University of Hawaii at Manoa.
+  This repository is for the final project for ICS455 at the University of Hawaii at Manoa.
 We chose to implement Blockchain protocols to create our own form of cryptocurrency. A Blockchain is
 a data structure that consists of blocks that are linked sequentially and secured cryptographically. Every block
 is easy to verify and append to an existing block. Each block contains a hash of its parent block, which is one
@@ -14,7 +14,7 @@ Our implementation currently utilizes a central authority without the use of a P
 to the project includes the implementation of another cryptographic hash algorithm during the proof of work, the
 implementation of a P2P network for validation, and the adjustment to our central authority by delegating some of its
 duties in exchange for some type or reward.
-    This project was developed in Python 3 and runs from the program `CmdLineRunner.py`. The user has the option to
+  This project was developed in Python 3 and runs from the program `CmdLineRunner.py`. The user has the option to
 find the `balance`, to `mine`, create a `transaction`, and to `verify`. An example run and a copy of the output can be
 found below.
 
@@ -139,7 +139,7 @@ Edd has 1004 ICS-455-Cryptocurrency
 
 ## Blockchain
 
-    The blocks of the Blockchain data structure will be stored in json format, as can be seen in our Genesis Block:
+  The blocks of the Blockchain data structure will be stored in json format, as can be seen in our Genesis Block:
 
 ```
 {
@@ -158,13 +158,13 @@ Edd has 1004 ICS-455-Cryptocurrency
 }
 ```
 
-    Each of our blocks contains the data (transactions), the block ID (index), the hash of the parent (previous_hash),
+  Each of our blocks contains the data (transactions), the block ID (index), the hash of the parent (previous_hash),
 and the proof of work (proof). We start the Genesis Block, with the index of 0, with a substantial amount of our
 currency to stimulate our economy. Further details on each characteristic of the blocks are detailed below.
 
 ### Transactions
 
-    For now, each block will only have one transaction. Each transaction contains an amount to be sent,
+  For now, each block will only have one transaction. Each transaction contains an amount to be sent,
 the addresses of the sender and receiver, and the signature for the transaction.
 
 ```
@@ -176,16 +176,16 @@ the addresses of the sender and receiver, and the signature for the transaction.
 }
 ```
 
-    As seen in the example run, the string for the receiver is only meant to be a placeholder for the actual public
+  As seen in the example run, the string for the receiver is only meant to be a placeholder for the actual public
 key. The signature is the private key associated with the sender's public key. Through the command line runner, the user
 is able to enter in the fields of the transaction.
 
-    Now that the structure of the blocks has been described, the functionality of the Blockchain will discussed. To verify
+  Now that the structure of the blocks has been described, the functionality of the Blockchain will discussed. To verify
 that the transaction is valid, we must determine that the sender has enough funds to transfer.
 
 ### Proof of Work
 
-    For our proof of work for the blocks, SHA-256 was our chosen Cryptographic Hash Algorithm, and our function maps to
+  For our proof of work for the blocks, SHA-256 was our chosen Cryptographic Hash Algorithm, and our function maps to
 the slide given.
 
 ```python
@@ -200,7 +200,7 @@ def proof_example():
     print("proof = " + str(r["proof"]))
 ```
 
-    During the `mine` option, the Blockchain and a given transaction file from the user has it's proof of work computed
+  During the `mine` option, the Blockchain and a given transaction file from the user has it's proof of work computed
 in the following method.
 
 ```python
@@ -224,7 +224,7 @@ def find_proof_of_work(json_block):
 
 ### Verification
 
-    After the block has been mined, we can turn to the `verify` option to validate the new copy of the Blockchain.
+  After the block has been mined, we can turn to the `verify` option to validate the new copy of the Blockchain.
 As seen in the example run, the following method provides the user with verification that none of the blocks in the
 Blockchain have been tampered with and is ready for another block to be mined.
 
